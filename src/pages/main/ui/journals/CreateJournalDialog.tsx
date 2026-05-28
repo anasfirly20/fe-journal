@@ -8,6 +8,7 @@ import { z } from "zod";
 import {
   useAddJournalMutation,
   useEditJournalMutation,
+  type Journal,
 } from "@/entities/journal";
 import { Button } from "@/shared/ui/Button";
 import { Calendar } from "@/shared/ui/Calendar";
@@ -31,7 +32,6 @@ import {
 } from "@/shared/ui/Select";
 import { UNITS } from "../../model/units";
 
-import type { Journal } from "@/entities/journal/model/journal";
 import type { WorkType } from "@/entities/work-type/model/work-type";
 
 const createJournalSchema = z.object({

@@ -3,10 +3,10 @@ import { useJournalsQuery } from "@/entities/journal";
 import { useWorkTypesQuery } from "@/entities/work-type";
 import { Header } from "./Header";
 import { FiltersToolbar } from "./FiltersToolbar";
-import { getColumns } from "./journals/columns";
 import { CreateJournalDialog } from "./journals/CreateJournalDialog";
 import { DeleteJournalDialog } from "./journals/DeleteJournalDialog";
-import { DataTable } from "./journals/data-table";
+import { DataTable } from "./journals/JournalsTable";
+import { getColumns } from "./journals/Columns";
 
 import type { Journal, JournalFilters } from "@/entities/journal/model/journal";
 

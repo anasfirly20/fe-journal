@@ -1,5 +1,4 @@
-import type { Journal } from "@/entities/journal/model/journal";
-import { useDeleteJournalMutation } from "@/entities/journal";
+import { useDeleteJournalMutation, type Journal } from "@/entities/journal";
 import {
   Dialog,
   DialogContent,

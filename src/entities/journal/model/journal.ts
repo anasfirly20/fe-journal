@@ -1,3 +1,5 @@
+import type { WorkType } from "@/entities/work-type/@x/journal";
+
 export interface Journal {
   id: number;
   workTypeId: number;
@@ -8,11 +10,6 @@ export interface Journal {
   createdAt: string;
   updatedAt: string;
   workType: WorkType;
-}
-
-interface WorkType {
-  id: number;
-  name: string;
 }
 
 export interface JournalFilters {

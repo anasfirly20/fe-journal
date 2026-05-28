@@ -1,8 +1,8 @@
-import type { Journal } from "@/entities/journal/model/journal";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/shared/ui/Button";
 import { Edit, Trash2 } from "lucide-react";
+import type { Journal } from "@/entities/journal";
 
 interface ColumnsProps {
   onEdit: (journal: Journal) => void;
