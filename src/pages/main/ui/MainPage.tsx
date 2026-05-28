@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { useJournalsQuery } from "@/entities/journal";
+import { useWorkTypesQuery } from "@/entities/work-type";
+import { Header } from "./Header";
 import { FiltersToolbar } from "./FiltersToolbar";
 import { getColumns } from "./journals/columns";
 import { CreateJournalDialog } from "./journals/CreateJournalDialog";
 import { DeleteJournalDialog } from "./journals/DeleteJournalDialog";
 import { DataTable } from "./journals/data-table";
-import { Header } from "./Header";
 
-import type { Journal } from "@/entities/journal/model/journal";
-import { useWorkTypesQuery } from "@/entities/work-type";
+import type { Journal, JournalFilters } from "@/entities/journal/model/journal";
 
 export const MainPage = () => {
-  const { data: journalEntries } = useJournalsQuery();
+  const [filters, setFilters] = useState<JournalFilters>({});
+
+  const { data: journalEntries } = useJournalsQuery(filters);
   const { data: workTypes } = useWorkTypesQuery();
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -44,7 +46,11 @@ export const MainPage = () => {
   return (
     <section>
       <Header />
-      <FiltersToolbar onCreate={handleCreate} />
+      <FiltersToolbar
+        onCreate={handleCreate}
+        onChangeFilters={setFilters}
+        workTypes={workTypes || []}
+      />
       <DataTable columns={columns} data={journalEntries || []} />
 
       <CreateJournalDialog

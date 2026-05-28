@@ -1,43 +1,27 @@
-// CreateJournalDialog.tsx
-
 import { useEffect } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-
-import { CalendarIcon, Loader2, Plus, Save } from "lucide-react";
-
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-
 import { z } from "zod";
-
-import type { Journal } from "@/entities/journal/model/journal";
-
 import {
   useAddJournalMutation,
   useEditJournalMutation,
 } from "@/entities/journal";
-
 import { Button } from "@/shared/ui/Button";
-
 import { Calendar } from "@/shared/ui/Calendar";
-
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui/Dialog";
-
 import { Input } from "@/shared/ui/Input";
-
 import { Label } from "@/shared/ui/Label";
-
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
-
 import {
   Select,
   SelectContent,
@@ -45,14 +29,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/Select";
-import type { WorkType } from "@/entities/work-type/model/work-type";
 import { UNITS } from "../../model/units";
 
+import type { Journal } from "@/entities/journal/model/journal";
+import type { WorkType } from "@/entities/work-type/model/work-type";
+
 const createJournalSchema = z.object({
-  workTypeId: z.coerce.number({
-    error: "Выберите вид работ",
-  }),
-  volume: z.coerce.number().min(1, "Введите объем"),
+  workTypeId: z.coerce
+    .number({
+      error: "Выберите вид работ",
+    })
+    .min(1, "Выберите вид работ"),
+  volume: z.coerce
+    .number({
+      error: "Введите объем",
+    })
+    .min(1, "Введите объем"),
   unit: z.enum(["M2", "M3", "PCS", "KG", "TON", "METER"], {
     error: "Выберите единицу измерения",
   }),
@@ -62,7 +54,8 @@ const createJournalSchema = z.object({
   }),
 });
 
-type CreateJournalFormData = z.infer<typeof createJournalSchema>;
+type CreateJournalFormData = z.input<typeof createJournalSchema>;
+type CreateJournalFormOutput = z.output<typeof createJournalSchema>;
 
 interface CreateJournalDialogProps {
   open: boolean;
@@ -92,7 +85,7 @@ export const CreateJournalDialog = ({
     watch,
     reset,
     formState: { errors },
-  } = useForm<CreateJournalFormData>({
+  } = useForm<CreateJournalFormData, unknown, CreateJournalFormOutput>({
     resolver: zodResolver(createJournalSchema),
     defaultValues: {
       workerName: "",
@@ -104,7 +97,7 @@ export const CreateJournalDialog = ({
       reset({
         workTypeId: journal.workTypeId,
         volume: journal.volume,
-        unit: journal.unit as CreateJournalFormData["unit"],
+        unit: journal.unit as CreateJournalFormOutput["unit"],
         workerName: journal.workerName,
         performedAt: new Date(journal.performedAt),
       });
@@ -123,7 +116,7 @@ export const CreateJournalDialog = ({
 
   const performedAt = watch("performedAt");
 
-  const onSubmit = async (data: CreateJournalFormData) => {
+  const onSubmit = async (data: CreateJournalFormOutput) => {
     const payload = {
       workTypeId: data.workTypeId,
       volume: data.volume,
@@ -148,7 +141,7 @@ export const CreateJournalDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[720px] rounded-[28px] border-border bg-card p-0 shadow-card">
+      <DialogContent className="rounded-[28px] border-border bg-card p-0 shadow-card sm:max-w-180">
         <DialogHeader className="px-8 pt-8 pb-6">
           <div className="space-y-2">
             <DialogTitle className="text-[40px] font-semibold tracking-[-0.03em] text-text-primary">
@@ -166,12 +159,15 @@ export const CreateJournalDialog = ({
               <Label>
                 Вид работ <span className="text-danger">*</span>
               </Label>
-
               <Select
                 value={String(watch("workTypeId") || "")}
-                onValueChange={(value) => setValue("workTypeId", Number(value))}
+                onValueChange={(value) =>
+                  setValue("workTypeId", Number(value), {
+                    shouldValidate: true,
+                  })
+                }
               >
-                <SelectTrigger className="h-14! rounded-2xl">
+                <SelectTrigger className="h-12! rounded-md">
                   <SelectValue placeholder="Выберите вид работ" />
                 </SelectTrigger>
                 <SelectContent>
@@ -182,7 +178,6 @@ export const CreateJournalDialog = ({
                   ))}
                 </SelectContent>
               </Select>
-
               {errors.workTypeId && (
                 <p className="text-sm text-danger">
                   {errors.workTypeId.message}
@@ -198,10 +193,8 @@ export const CreateJournalDialog = ({
                 <Input
                   type="number"
                   placeholder="Введите объем"
-                  className="h-14 rounded-2xl"
                   {...register("volume")}
                 />
-
                 {errors.volume && (
                   <p className="text-sm text-danger">{errors.volume.message}</p>
                 )}
@@ -214,10 +207,12 @@ export const CreateJournalDialog = ({
                 <Select
                   value={watch("unit")}
                   onValueChange={(value) =>
-                    setValue("unit", value as CreateJournalFormData["unit"])
+                    setValue("unit", value as CreateJournalFormOutput["unit"], {
+                      shouldValidate: true,
+                    })
                   }
                 >
-                  <SelectTrigger className="h-14! rounded-2xl">
+                  <SelectTrigger className="h-12! rounded-md">
                     <SelectValue placeholder="Выберите единицу" />
                   </SelectTrigger>
                   <SelectContent>
@@ -241,10 +236,8 @@ export const CreateJournalDialog = ({
               </Label>
               <Input
                 placeholder="Введите ФИО исполнителя"
-                className="h-14 rounded-2xl"
                 {...register("workerName")}
               />
-
               {errors.workerName && (
                 <p className="text-sm text-danger">
                   {errors.workerName.message}
@@ -261,7 +254,7 @@ export const CreateJournalDialog = ({
                   <Button
                     type="button"
                     variant="outline"
-                    className="h-14 w-full justify-between rounded-2xl px-4 font-normal"
+                    className="h-12! w-full justify-between rounded-md px-3 font-normal"
                   >
                     {performedAt ? (
                       format(performedAt, "dd MMMM yyyy", {
@@ -278,8 +271,13 @@ export const CreateJournalDialog = ({
                 <PopoverContent align="start" className="w-auto p-0">
                   <Calendar
                     mode="single"
+                    locale={ru}
                     selected={performedAt}
-                    onSelect={(date) => setValue("performedAt", date as Date)}
+                    onSelect={(date) =>
+                      setValue("performedAt", date as Date, {
+                        shouldValidate: true,
+                      })
+                    }
                   />
                 </PopoverContent>
               </Popover>
@@ -292,7 +290,7 @@ export const CreateJournalDialog = ({
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 border-t border-border px-8 py-6">
+          <DialogFooter className="border-t border-border px-8 py-6">
             <Button
               type="button"
               variant="outline"
@@ -308,20 +306,9 @@ export const CreateJournalDialog = ({
               disabled={isPending}
             >
               {isPending && <Loader2 className="animate-spin" />}
-
-              {journal ? (
-                <>
-                  <Save className="size-5" />
-                  <span>Сохранить</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="size-5" />
-                  <span>Создать</span>
-                </>
-              )}
+              {journal ? "Сохранить" : "Создать"}
             </Button>
-          </div>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

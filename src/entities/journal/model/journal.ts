@@ -19,6 +19,8 @@ export interface JournalFilters {
   date?: string;
   from?: string;
   to?: string;
+  workTypeId?: number;
+  workerName?: string;
 }
 
 export interface CreateJournal {

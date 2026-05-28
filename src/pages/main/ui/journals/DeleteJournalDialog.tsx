@@ -1,6 +1,5 @@
 import type { Journal } from "@/entities/journal/model/journal";
 import { useDeleteJournalMutation } from "@/entities/journal";
-
 import {
   Dialog,
   DialogContent,
@@ -10,7 +9,6 @@ import {
   DialogTitle,
 } from "@/shared/ui/Dialog";
 import { Button } from "@/shared/ui/Button";
-
 import { Loader2, Trash2 } from "lucide-react";
 
 interface DeleteJournalDialogProps {
@@ -34,7 +32,7 @@ export const DeleteJournalDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden rounded-[32px] border-border bg-card p-0 shadow-card sm:max-w-[680px]">
+      <DialogContent className="overflow-hidden rounded-4xl border-border bg-card p-0 shadow-card sm:max-w-[680px]">
         <div className="px-8 pt-10 pb-8">
           <DialogHeader className="items-center text-center">
             <div className="flex size-24 items-center justify-center rounded-full border border-danger/10 bg-danger/5 shadow-sm">
