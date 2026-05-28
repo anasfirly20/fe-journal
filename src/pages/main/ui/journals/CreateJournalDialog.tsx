@@ -33,6 +33,7 @@ import {
 import { UNITS } from "../../model/units";
 
 import type { WorkType } from "@/entities/work-type/model/work-type";
+import { toast } from "sonner";
 
 const createJournalSchema = z.object({
   workTypeId: z.coerce
@@ -130,8 +131,10 @@ export const CreateJournalDialog = ({
         id: journal.id,
         data: payload,
       });
+      toast.success("Запись успешно обновлена");
     } else {
       await createJournal(payload);
+      toast.success("Запись успешно создана");
     }
 
     reset();

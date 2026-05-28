@@ -9,6 +9,7 @@ import {
 } from "@/shared/ui/Dialog";
 import { Button } from "@/shared/ui/Button";
 import { Loader2, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface DeleteJournalDialogProps {
   open: boolean;
@@ -26,6 +27,7 @@ export const DeleteJournalDialog = ({
   const handleDelete = async () => {
     if (!journal) return;
     await mutateAsync(journal.id);
+    toast.success("Запись успешно удалена");
     onOpenChange(false);
   };
 
