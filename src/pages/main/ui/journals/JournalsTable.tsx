@@ -93,7 +93,7 @@ export function JournalsTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          Назад
         </Button>
         <Button
           variant="outline"
@@ -101,7 +101,7 @@ export function JournalsTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          Вперёд
         </Button>
       </div>
     </div>

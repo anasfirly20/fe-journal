@@ -4,7 +4,7 @@ Frontend application for the construction work journal system built with React, 
 
 ## Application Preview
 
-![Application Preview](./src/assets/application-preview.png)
+![Application Preview](./src/assets/application-preview-1.png)
 ![Application Preview Modal](./src/assets/application-preview-2.png)
 
 ## Tech Stack
