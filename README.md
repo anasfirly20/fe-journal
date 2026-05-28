@@ -2,6 +2,11 @@
 
 Frontend application for the construction work journal system built with React, TypeScript, Vite, Tailwind CSS v4, and TanStack ecosystem.
 
+## Application Preview
+
+![Application Preview](./src/assets/application-preview.png)
+![Application Preview Modal](./src/assets/application-preview-2.png)
+
 ## Tech Stack
 
 ### Core
