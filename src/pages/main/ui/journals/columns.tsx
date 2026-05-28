@@ -1,11 +1,18 @@
-"use client";
-
 import type { Journal } from "@/entities/journal/model/journal";
-import { Button } from "@/shared/ui/Button";
 import type { ColumnDef } from "@tanstack/react-table";
+
+import { Button } from "@/shared/ui/Button";
 import { Edit, Trash2 } from "lucide-react";
 
-export const columns: ColumnDef<Journal>[] = [
+interface ColumnsProps {
+  onEdit: (journal: Journal) => void;
+  onDelete: (journal: Journal) => void;
+}
+
+export const getColumns = ({
+  onEdit,
+  onDelete,
+}: ColumnsProps): ColumnDef<Journal>[] => [
   {
     accessorKey: "performedAt",
     header: "Дата",
@@ -14,36 +21,48 @@ export const columns: ColumnDef<Journal>[] = [
     },
   },
   {
+    accessorKey: "workerName",
+    header: "Исполнитель",
+  },
+  {
     accessorKey: "workType.name",
     header: "Вид работ",
   },
   {
-    accessorKey: "volume",
+    id: "volume",
     header: "Объём",
     cell: ({ row }) => {
       const { volume, unit } = row.original;
 
-      return `${volume} ${unit}`;
+      const unitMap: Record<string, string> = {
+        M2: "м²",
+        M3: "м³",
+        PCS: "шт",
+        KG: "кг",
+        TON: "т",
+        METER: "м",
+      };
+
+      return (
+        <div className="font-medium text-text-primary">
+          {volume} {unitMap[unit] || unit}
+        </div>
+      );
     },
-  },
-  {
-    accessorKey: "unit",
-    header: "Ед. изм.",
-  },
-  {
-    accessorKey: "workerName",
-    header: "Исполнитель",
   },
   {
     id: "actions",
     header: "Действия",
     cell: ({ row }) => {
+      const journal = row.original;
+
       return (
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => onEdit(journal)}>
             <Edit />
           </Button>
-          <Button variant="outline">
+
+          <Button variant="outline" onClick={() => onDelete(journal)}>
             <Trash2 className="text-danger" />
           </Button>
         </div>

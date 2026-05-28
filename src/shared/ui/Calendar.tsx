@@ -16,13 +16,15 @@ import {
 import { cn } from "../lib/cn";
 import { Button, buttonVariants } from "./Button";
 
+import { ru } from "react-day-picker/locale";
+
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
   captionLayout = "label",
   buttonVariant = "ghost",
-  locale,
+  locale = ru,
   formatters,
   components,
   ...props
@@ -99,8 +101,6 @@ function Calendar({
           defaultClassNames.caption_label,
         ),
 
-        table: cn("w-full border-collapse", defaultClassNames.table),
-
         weekdays: cn("mb-2 flex", defaultClassNames.weekdays),
 
         weekday: cn(
@@ -137,7 +137,7 @@ function Calendar({
           defaultClassNames.range_end,
         ),
 
-        today: cn("rounded-[18px] bg-accent", defaultClassNames.today),
+        today: defaultClassNames.today,
 
         outside: cn("text-text-muted opacity-60", defaultClassNames.outside),
 

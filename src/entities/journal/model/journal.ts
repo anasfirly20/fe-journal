@@ -20,3 +20,11 @@ export interface JournalFilters {
   from?: string;
   to?: string;
 }
+
+export interface CreateJournal {
+  workTypeId: number;
+  volume: number;
+  unit: string;
+  workerName: string;
+  performedAt: string;
+}

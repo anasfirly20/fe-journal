@@ -1,1 +1,6 @@
-export { useJournalsQuery } from "./api/queries";
+export {
+  useJournalsQuery,
+  useAddJournalMutation,
+  useEditJournalMutation,
+  useDeleteJournalMutation,
+} from "./api/queries";
