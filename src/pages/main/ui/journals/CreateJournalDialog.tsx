@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import { CalendarIcon, Loader2, Plus, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -306,7 +306,17 @@ export const CreateJournalDialog = ({
               disabled={isPending}
             >
               {isPending && <Loader2 className="animate-spin" />}
-              {journal ? "Сохранить" : "Создать"}
+              {journal ? (
+                <>
+                  <Save className="size-5" />
+                  <span>Сохранить</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="size-5" />
+                  <span>Создать</span>
+                </>
+              )}
             </Button>
           </DialogFooter>
         </form>
