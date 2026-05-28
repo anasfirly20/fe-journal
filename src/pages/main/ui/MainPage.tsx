@@ -1,3 +1,11 @@
+import { FiltersToolbar } from "./FiltersToolbar";
+import { Header } from "./Header";
+
 export const MainPage = () => {
-  return <section className="min-h-screen">MAIN PAGE</section>;
+  return (
+    <section>
+      <Header />
+      <FiltersToolbar />
+    </section>
+  );
 };
