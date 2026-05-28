@@ -5,7 +5,7 @@ import { Header } from "./Header";
 import { FiltersToolbar } from "./FiltersToolbar";
 import { CreateJournalDialog } from "./journals/CreateJournalDialog";
 import { DeleteJournalDialog } from "./journals/DeleteJournalDialog";
-import { DataTable } from "./journals/JournalsTable";
+import { JournalsTable } from "./journals/JournalsTable";
 import { getColumns } from "./journals/Columns";
 
 import type { Journal, JournalFilters } from "@/entities/journal/model/journal";
@@ -51,7 +51,7 @@ export const MainPage = () => {
         onChangeFilters={setFilters}
         workTypes={workTypes || []}
       />
-      <DataTable columns={columns} data={journalEntries || []} />
+      <JournalsTable columns={columns} data={journalEntries || []} />
 
       <CreateJournalDialog
         open={createOpen}

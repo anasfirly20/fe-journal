@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/shared/ui/Button";
-import { Edit, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Edit, Trash2 } from "lucide-react";
 import type { Journal } from "@/entities/journal";
 
 interface ColumnsProps {
@@ -15,7 +15,24 @@ export const getColumns = ({
 }: ColumnsProps): ColumnDef<Journal>[] => [
   {
     accessorKey: "performedAt",
-    header: "Дата",
+
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted();
+
+      return (
+        <Button
+          variant="ghost"
+          className="-ml-3 h-9 px-3 font-semibold"
+          onClick={() => column.toggleSorting(isSorted === "asc")}
+        >
+          Дата
+          {isSorted === "asc" && <ArrowUp size={16} />}
+          {isSorted === "desc" && <ArrowDown size={16} />}
+          {!isSorted && <ArrowUpDown size={16} className="opacity-50" />}
+        </Button>
+      );
+    },
+
     cell: ({ row }) => {
       return new Date(row.original.performedAt).toLocaleDateString("ru-RU");
     },
