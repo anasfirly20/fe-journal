@@ -79,40 +79,46 @@ export const FiltersToolbar = ({
 
   return (
     <section className="mt-5 rounded-lg border border-border bg-card p-4 shadow-card">
-      <div className="flex justify-between">
-        <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-center">
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className="h-14 min-w-90 justify-between px-5"
+                className="h-14 w-full justify-between px-5 sm:min-w-90 lg:w-auto"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex size-10 items-center justify-center rounded-md bg-accent">
+                <div className="flex min-w-0 items-center gap-4">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-accent">
                     <CalendarIcon size={20} className="text-text-secondary" />
                   </div>
 
-                  <span className="text-base font-semibold text-text-primary">
+                  <span className="truncate text-sm font-semibold text-text-primary sm:text-base">
                     {dateRange?.from
                       ? format(dateRange.from, "dd.MM.yyyy")
                       : "Дата"}
-                    {" - "}
+                    {" — "}
                     {dateRange?.to
                       ? format(dateRange.to, "dd.MM.yyyy")
                       : "Дата"}
                   </span>
                 </div>
-
-                <ChevronDown size={18} className="text-text-secondary" />
+                <ChevronDown
+                  size={18}
+                  className="shrink-0 text-text-secondary"
+                />
               </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="p-0">
+            <PopoverContent className="w-full p-0 sm:w-auto">
               <Calendar
                 mode="range"
                 selected={dateRange}
                 locale={ru}
-                numberOfMonths={2}
+                numberOfMonths={
+                  typeof window !== "undefined" && window.innerWidth < 640
+                    ? 1
+                    : 2
+                }
                 onSelect={(range) => {
                   setFilters({
                     from: range?.from ? format(range.from, "yyyy-MM-dd") : null,
@@ -127,14 +133,13 @@ export const FiltersToolbar = ({
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className="h-14 min-w-[320px] justify-between px-5"
+                className="h-14 w-full justify-between px-5 sm:min-w-[320px] lg:w-auto"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex size-10 items-center justify-center rounded-md bg-accent">
+                <div className="flex min-w-0 items-center gap-4">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-accent">
                     <ListFilter size={20} className="text-text-secondary" />
                   </div>
-
-                  <span className="text-base font-semibold text-text-primary">
+                  <span className="truncate text-sm font-semibold text-text-primary sm:text-base">
                     {filters.workTypeId
                       ? workTypes.find(
                           (item) => item.id === Number(filters.workTypeId),
@@ -142,8 +147,10 @@ export const FiltersToolbar = ({
                       : "Все виды работ"}
                   </span>
                 </div>
-
-                <ChevronDown size={18} className="text-text-secondary" />
+                <ChevronDown
+                  size={18}
+                  className="shrink-0 text-text-secondary"
+                />
               </Button>
             </PopoverTrigger>
 
@@ -187,7 +194,7 @@ export const FiltersToolbar = ({
             </PopoverContent>
           </Popover>
 
-          <div className="relative">
+          <div className="relative w-full lg:w-auto">
             <Input
               placeholder="Поиск по исполнителю..."
               value={filters.workerName || ""}
@@ -196,13 +203,13 @@ export const FiltersToolbar = ({
                   workerName: e.target.value || null,
                 });
               }}
-              className="h-14 w-70 px-5 text-base"
+              className="h-14 w-full px-5 text-base lg:w-70"
             />
           </div>
 
           <Button
             variant="outline"
-            className="h-14 shrink-0 gap-3 px-5"
+            className="h-14 w-full shrink-0 gap-3 px-5 sm:w-auto"
             disabled={!hasActiveFilters}
             onClick={() => {
               setFilters({
@@ -220,7 +227,7 @@ export const FiltersToolbar = ({
 
         <Button
           variant="default"
-          className="h-14 shrink-0 gap-3 px-6"
+          className="h-14 w-full shrink-0 gap-3 px-6 xl:w-auto"
           onClick={onCreate}
         >
           <Plus size={20} />
